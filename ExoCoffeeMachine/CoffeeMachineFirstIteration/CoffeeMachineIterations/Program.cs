@@ -10,54 +10,56 @@ namespace CoffeeMachine
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Démarrage des commandes");
-            Console.WriteLine("Veuillez entrer votre commande sous le format : X:X:X");
-            string commande = Console.ReadLine();
+            //Console.WriteLine("Démarrage des commandes");
+            //Console.WriteLine("Veuillez entrer votre commande sous le format : X:X:X");
+            //string commande = Console.ReadLine();
     
-            string[] strCommande = null;
-            char[] splitdelimiter = { ':' };
-            strCommande= commande.Split(splitdelimiter);
-            string boissonchoisi = strCommande[0];
+            //string[] strCommande = null;
+            //char[] splitdelimiter = { ':' };
+            //strCommande= commande.Split(splitdelimiter);
+            //string boissonchoisi = strCommande[0];
 
-            int nbsugar;
-            int nbstick;
-            bool isSuccessul = Int32.TryParse(strCommande[1], out nbsugar);
-            if (!isSuccessul) 
-                nbsugar = 0;
+            //int nbsugar;
+            //int nbstick;
+            //bool isSuccessul = Int32.TryParse(strCommande[1], out nbsugar);
+            //if (!isSuccessul) 
+            //    nbsugar = 0;
 
-            isSuccessul = Int32.TryParse(strCommande[2], out nbstick);
-            if (!isSuccessul)
-                nbstick = 0;
+            //isSuccessul = Int32.TryParse(strCommande[2], out nbstick);
+            //if (!isSuccessul)
+            //    nbstick = 0;
 
-            if (nbsugar >= 1 && nbstick==0)
-                nbstick += 1;
+            //if (nbsugar >= 1 && nbstick==0)
+            //    nbstick += 1;
             
 
-            switch (boissonchoisi)
-            {
-                case "T":
-                    Tea tea = new Tea(nbsugar, nbstick);
-                    Console.WriteLine(tea.EnvoyerMessage());
-                    break;
-                case "H":
-                    Chocolate choco = new Chocolate(nbsugar, nbstick);
-                    Console.WriteLine(choco.EnvoyerMessage());
-                    break;
-                case "C":
+            //switch (boissonchoisi)
+            //{
+            //    case "T":
+            //        Tea tea = new Tea(nbsugar, nbstick,);
+            //        Console.WriteLine(tea.EnvoyerMessage());
+            //        break;
+            //    case "H":
+            //        Chocolate choco = new Chocolate(nbsugar, nbstick);
+            //        Console.WriteLine(choco.EnvoyerMessage());
+            //        break;
+            //    case "C":
 
-                    Coffee coffee = new Coffee(nbsugar , nbstick);
-                    Console.WriteLine(coffee.EnvoyerMessage());
-                    break;
-            }
-            Console.ReadKey();
+            //        Coffee coffee = new Coffee(nbsugar , nbstick);
+            //        Console.WriteLine(coffee.EnvoyerMessage());
+            //        break;
+            //}
+            //Console.ReadKey();
 
         }
     }
 
    public class Drink
     {
-        public int NbSugar { get; set; }
-        public int NbStick { get; set; }
+        public int NbSugar { get;  set; }
+        public int NbStick { get;  set; }
+ 
+
 
         public Drink( int nbsugar, int nbStick)
         {
@@ -74,10 +76,30 @@ namespace CoffeeMachine
     }
    public  class Tea : Drink
     {
-        public Tea( int nbsugar, int nbStick) : base(nbsugar, nbStick)
+        private double price=0.4;
+        public double Price
+        {
+            get
+            {
+                return price;
+            }
+            set
+            {
+                if ((value >= 0.4))
+                {
+                    price = value;
+                }
+
+            }
+
+        }
+
+
+        public Tea( int nbsugar, int nbStick, int price) : base(nbsugar, nbStick)
         {
             NbSugar = nbsugar;
             NbStick = nbStick;
+            Price = price;
         }
 
 
@@ -90,11 +112,30 @@ namespace CoffeeMachine
     }
    public class Coffee : Drink
     {
-        public Coffee( int nbsugar, int nbStick) : base( nbsugar, nbStick)
+        private double price = 0.6;
+        public double Price
+        {
+            get
+            {
+                return price;
+            }
+            set
+            {
+                if ((value >= 0.6))
+                {
+                    price = value;
+                }
+
+            }
+
+        }
+
+        public Coffee( int nbsugar, int nbStick,int price) : base( nbsugar, nbStick)
         {
 
             NbSugar = nbsugar;
             NbStick = nbStick;
+            Price = price;
         }
         public override string EnvoyerMessage()
         {
@@ -103,10 +144,29 @@ namespace CoffeeMachine
     }
    public  class Chocolate : Drink
     {
-        public Chocolate(int nbsugar, int nbStick) : base( nbsugar, nbStick)
+        private double price = 0.5;
+        public double Price
+        {
+            get
+            {
+                return price;
+            }
+            set
+            {
+                if ((value >= 0.5))
+                {
+                    price = value;
+                }
+
+            }
+
+        }
+
+        public Chocolate(int nbsugar, int nbStick,int price) : base( nbsugar, nbStick)
         {
             NbSugar = nbsugar;
             NbStick = nbStick;
+            Price = price;
         }
         public override string EnvoyerMessage()
         {
