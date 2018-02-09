@@ -1,0 +1,6 @@
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\obj\Debug\CoffeeMachineIterations.csprojResolveAssemblyReference.cache
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\obj\Debug\CoffeeMachineFirstIteration.exe
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\obj\Debug\CoffeeMachineFirstIteration.pdb
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\bin\Debug\CoffeeMachineFirstIteration.exe.config
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\bin\Debug\CoffeeMachineFirstIteration.exe
+C:\Users\kodjo\CoffeeMachine\ExoCoffeeMachine\CoffeeMachineFirstIteration\CoffeeMachineIterations\bin\Debug\CoffeeMachineFirstIteration.pdb

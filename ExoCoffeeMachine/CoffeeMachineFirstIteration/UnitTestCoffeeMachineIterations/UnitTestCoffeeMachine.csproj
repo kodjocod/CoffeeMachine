@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoffeeMachineFirstIteration\CoffeeMachineFirstIteration.csproj">
+    <ProjectReference Include="..\CoffeeMachineIterations\CoffeeMachineIterations.csproj">
       <Project>{cdd29e65-8bee-469b-8118-612a5f19d1ed}</Project>
-      <Name>CoffeeMachineFirstIteration</Name>
+      <Name>CoffeeMachineIterations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
