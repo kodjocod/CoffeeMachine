@@ -15,13 +15,20 @@ namespace CoffeeMachine
             m.PassOrder(order);
             string order2 = "C:2:0:0,6";
             m.PassOrder(order2);
-            m.DisplayReport(); 
-            
+            m.DisplayReport();
+
 
         }
     }
-
-    public class Machine
+    public interface EmailNotifier
+    {
+        void notifyMissingDrink(String drink);
+    }
+    public interface BeverageQuantityChecker
+    {
+        bool isEmpty(String drink);
+    }
+    public class Machine : EmailNotifier,BeverageQuantityChecker
     {
         public static int TotalNbCoffee { get; set; }
         public static int TotalNbTea { get; set; }
@@ -51,15 +58,16 @@ namespace CoffeeMachine
             string drinkname = strOrder[0];
             Drink drink = new Drink(drinkname);
             double orderprice;
-            if (strOrder.Length>3)
+            if (strOrder.Length > 3)
             {
                 orderprice = Double.Parse(strOrder[3]);
             }
-            else {
+            else
+            {
                 orderprice = drink.Price;
-               }
+            }
 
-            
+
             string message = "Drink maker will makes";
             if (drinkname.Contains("h"))
                 message += " an extra hot";
@@ -75,6 +83,7 @@ namespace CoffeeMachine
             Machine machine = new Machine();
             if (orderprice == drink.Price)
             {
+    
                 Console.WriteLine(message);
                 machine.ComputeDrinks(drink);
 
@@ -125,52 +134,72 @@ namespace CoffeeMachine
         public string DisplayReport()
         {
             string mes = "People have bought :" + "\r\n" + TotalNbCoffee + " coffee(s) " + "\r\n" + TotalNbTea + " tea(s)" + "\r\n" + TotalNbChocolate + " chocolate(s)" + "\r\n" + TotalNbOrange + " orange(s)" + "\r\n" + "Total Cost :" + TotalMoney;
-             return mes;
+            return mes;
         }
 
+        public bool isEmpty(string drink)
+        {
+            if (drink == "coffee")
+            {
+                return true;
+            }
+            else if (drink=="tea")
+            {
+                return false;
+            }
+            else if (drink == "chocolate")
+            {
+                return false;
+            }
+            else if (drink == "orange")
+            {
+                return true;
+            }
+            return false;
+        }
 
+       public void notifyMissingDrink(string drink)
+        {
+            Console.WriteLine("there is no more " + drink + " in the Drink maker");
+        }
     }
-   public class Drink
+    public class Drink
     {
         public double Price { get; set; }
-        public string Name { get;  set; }
+        public string Name { get; set; }
 
 
 
-        public Drink( string name)
+        public Drink(string name)
         {
             Name = name;
-                if (name == "T" | name=="Th")
-                {
-                    Name = "tea";
-                    Price = 0.4;
-                }
-                else if (name == "C" | name=="Ch")
-                {
-                    Name = "coffee";
-                    Price = 0.6;
-                }
-
-                else if (name == "H" |name=="Hh")
-                {
-                    Name = "chocolate";
-                    Price = 0.5;
-                }
-                else if (name == "O")
-                {
-                    Name = "orange";
-                    Price = 0.6;
-                }
-                else
-                    Price = 0;
+            if (name == "T" | name == "Th")
+            {
+                Name = "tea";
+                Price = 0.4;
             }
+            else if (name == "C" | name == "Ch")
+            {
+                Name = "coffee";
+                Price = 0.6;
+            }
+
+            else if (name == "H" | name == "Hh")
+            {
+                Name = "chocolate";
+                Price = 0.5;
+            }
+            else if (name == "O")
+            {
+                Name = "orange";
+                Price = 0.6;
+            }
+            else
+                Price = 0;
+        }
 
 
     }
 
 
 }
-
-
-
-

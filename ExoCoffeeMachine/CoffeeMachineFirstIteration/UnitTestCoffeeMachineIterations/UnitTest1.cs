@@ -36,7 +36,7 @@ namespace UnitTestExoCoffeeMachine
 
         [TestMethod]
 
-         public void OrderSimpleOrangeJuice()
+        public void OrderSimpleOrangeJuice()
         {
             string order = "O::";
             Machine m = new Machine();
@@ -72,7 +72,7 @@ namespace UnitTestExoCoffeeMachine
             Assert.AreEqual("Drink maker will makes an extra hot 1 coffee with 0 sugar(s) therefore no stick", m.PassOrder(order));
 
         }
- 
+
         [TestMethod]
         public void SetCoffeePrice()
         {
@@ -102,7 +102,20 @@ namespace UnitTestExoCoffeeMachine
             string order2 = "C:2:0:0,6";
             m.PassOrder(order2);
             m.DisplayReport();
-            Assert.AreEqual("People have bought :" + "\r\n"+ "6 coffee(s) " + "\r\n"  + "2 tea(s)" + "\r\n"   + "4 chocolate(s)" + "\r\n"   + "2 orange(s)" + "\r\n" + "Total Cost :7,6" , m.DisplayReport());
+            Assert.AreEqual("People have bought :" + "\r\n" + "6 coffee(s) " + "\r\n" + "2 tea(s)" + "\r\n" + "4 chocolate(s)" + "\r\n" + "2 orange(s)" + "\r\n" + "Total Cost :7,6", m.DisplayReport());
+        }
+
+
+        [TestMethod]
+        public void RunningOutCoffee()
+        {
+            Machine m = new Machine();
+            Drink d = new Drink("C");
+            if (m.isEmpty(d.Name))
+            {
+               m.notifyMissingDrink("coffee");
+            }
         }
     }
+
 }
