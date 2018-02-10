@@ -10,184 +10,105 @@ namespace CoffeeMachine
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Démarrage des commandes");
-            Console.WriteLine("Veuillez entrer votre commande sous le format :Boisson:Sucre:Touillettes:Prix "); //exemple "T:1:0:0,5";
-            string commande = Console.ReadLine();
-            string[] strCommande = null;
-            char[] splitdelimiter = { ':' };
-            strCommande= commande.Split(splitdelimiter);
-            string boissonchoisi = strCommande[0];
-
-            int nbsugar;
-            int nbstick;
-      
-            bool isSuccessul = Int32.TryParse(strCommande[1], out nbsugar);
-            if (!isSuccessul)
-                nbsugar = 0;
-
-            isSuccessul = Int32.TryParse(strCommande[2], out nbstick);
-            if (!isSuccessul)
-                nbstick = 0;
-
-            if (nbsugar >= 1 && nbstick == 0)
-                nbstick += 1;
-
-            double prixsaisie = Double.Parse(strCommande[3]);
-            
-
-            switch (boissonchoisi)
-            {
-                case "T":
-                    Tea tea = new Tea(nbsugar, nbstick, prixsaisie);
-                    if (prixsaisie < tea.Price)
-                    {
-                        Console.WriteLine("Le montant saisie est inférieure au montant minimal il manque :{0} euros", tea.Price - prixsaisie);
-                    }
-                    else if (prixsaisie> tea.Price)
-                    {
-                        Console.WriteLine("Votre monnaie est :{0} euros", prixsaisie -  tea.Price );
-                        Console.WriteLine(tea.EnvoyerMessage());
-                    }
-                    else
-                    {
-
-                    }
-                    break;
-                case "H":
-                    //Chocolate choco = new Chocolate(nbsugar, nbstick);
-                  //  Console.WriteLine(choco.EnvoyerMessage());
-                    break;
-                case "C":
-
-                  //  Coffee coffee = new Coffee(nbsugar , nbstick);
-                   // Console.WriteLine(coffee.EnvoyerMessage());
-                    break;
-            }
+            string order = "C:3:0:2";
+            Machine m = new Machine();
+            m.PassOrder(order);
             Console.ReadKey();
 
         }
     }
 
+    public class Machine
+    {
+        public string PassOrder(String order)
+        {
+            string[] strOrder = null;
+            char[] splitdelimiter = { ':' };
+            strOrder = order.Split(splitdelimiter);
+
+            int nbsugar;
+            int nbstick;
+            bool isSuccessul = Int32.TryParse(strOrder[1], out nbsugar);
+            if (!isSuccessul)
+                nbsugar = 0;
+
+            isSuccessul = Int32.TryParse(strOrder[2], out nbstick);
+            if (!isSuccessul)
+                nbstick = 0;
+
+            if (nbsugar >= 1 && nbstick == 0)
+                nbstick = 1;
+
+            string name = strOrder[0];
+            double orderprice = Double.Parse(strOrder[3]);
+            Drink drink = new Drink(name);
+            Machine machine = new Machine();
+
+            string message = "Drink maker makes ";
+            message += "1 " + drink.Name + " with " + nbsugar + " sugar(s) ";
+            if (nbstick == 0)
+                message += " therefore no stick";
+            else if (nbstick == 1)
+                message += " and a stick";
+            else
+                message += " and " + nbstick + "sticks";
+
+            if (orderprice == drink.Price)
+            {
+                Console.WriteLine(message);
+            }
+            else if (orderprice > drink.Price)
+            {
+                double change = orderprice - drink.Price;
+                Console.WriteLine(message += " you will have " + change + " of change");
+
+            }
+            else if (orderprice < drink.Price)
+            {
+                double diff = drink.Price - orderprice;
+                Console.WriteLine(message = "not enough money missing " + diff);
+
+            }
+
+            return message;
+
+
+        }
+
+    }
    public class Drink
     {
-        public int NbSugar { get;  set; }
-        public int NbStick { get;  set; }
- 
+        public double Price { get; set; }
+        public string Name { get; set; }
+        
 
-
-        public Drink( int nbsugar, int nbStick)
+        public Drink( string name)
         {
-
-            NbSugar = nbsugar;
-            NbStick = nbStick;
-        }
-        public virtual string EnvoyerMessage()
-        {
-            return "Drink maker makes";
-        }
-
-
-    }
-   public  class Tea : Drink
-    {
-        private double price=0.4;
-        public double Price
-        {
-            get
-            {
-                return price;
-            }
-            set
-            {
-                if ((value >= 0.4))
+            Name = name;
+                if (name == "T")
                 {
-                    price = value;
+                    Name = "tea";
+                    Price = 0.4;
+                }
+                else if (name == "C")
+                {
+                    Name = "coffee";
+                    Price = 0.6;
                 }
 
-            }
-
-        }
-
-
-        public Tea( int nbsugar, int nbStick, double price) : base(nbsugar, nbStick)
-        {
-            NbSugar = nbsugar;
-            NbStick = nbStick;
-            Price = price;
-        }
-
-
-
-        public override string EnvoyerMessage()
-        {
-            return base.EnvoyerMessage() + ""  + " tea with " + NbSugar + " sugar(s) and " + NbStick + " stick(s)";
-        }
-
-    }
-   public class Coffee : Drink
-    {
-        private double price = 0.6;
-        public double Price
-        {
-            get
-            {
-                return price;
-            }
-            set
-            {
-                if ((value >= 0.6))
+                else if (name == "H")
                 {
-                    price = value;
+                    Name = "chocolate";
+                    Price = 0.5;
                 }
-
+                else
+                    Price = 0;
             }
-
+    
         }
 
-        public Coffee( int nbsugar, int nbStick,double price) : base( nbsugar, nbStick)
-        {
-
-            NbSugar = nbsugar;
-            NbStick = nbStick;
-            Price = price;
-        }
-        public override string EnvoyerMessage()
-        {
-            return base.EnvoyerMessage() +  " coffee with " + NbSugar + " sugar(s) and " + NbStick + " stick(s)";
-        }
-    }
-   public  class Chocolate : Drink
-    {
-        private double price = 0.5;
-        public double Price
-        {
-            get
-            {
-                return price;
-            }
-            set
-            {
-                if ((value >= 0.5))
-                {
-                    price = value;
-                }
-
-            }
-
-        }
-
-        public Chocolate(int nbsugar, int nbStick,double price) : base( nbsugar, nbStick)
-        {
-            NbSugar = nbsugar;
-            NbStick = nbStick;
-            Price = price;
-        }
-        public override string EnvoyerMessage()
-        {
-            return base.EnvoyerMessage() + " chocolate with " + NbSugar + " sugar(s) and " + NbStick + " stick(s)";
-        }
     }
 
-}
+
 
 

@@ -7,51 +7,49 @@ namespace UnitTestExoCoffeeMachine
     [TestClass]
     public class UnitTestCoffeeMachine
     {
-        //[TestMethod]
-        //public void CommandeCoffeWith2Sugars()
-        //{
-        //    string commande ="C:2:0";
-        //    string[] strCommande = null;
-        //    char[] splitdelimiter = { ':' };
-        //    strCommande = commande.Split(splitdelimiter);
-        //    int nbsugar = Int32.Parse(strCommande[1]);
-        //    int nbstick= Int32.Parse(strCommande[2]);
-        //    if (nbsugar >= 1 && nbstick == 0)
-        //        nbstick += 1;
-        //    Coffee coffee = new Coffee(nbsugar, nbstick);
-        //    Assert.AreEqual("Drink maker makes coffee with 2 sugar(s) and 1 stick(s)",coffee.EnvoyerMessage());
-        //}
-        //[TestMethod]
-        //public void CommandeTeaWith1Stick()
-        //{
-        //    string commande = "T:1:0";
-        //    string[] strCommande = null;
-        //    char[] splitdelimiter = { ':' };
-        //    strCommande = commande.Split(splitdelimiter);
-        //    int nbsugar = Int32.Parse(strCommande[1]);
-        //    int nbstick = Int32.Parse(strCommande[2]);
-        //    if (nbsugar >= 1 && nbstick == 0)
-        //        nbstick += 1;
-        //    Tea tea = new Tea (nbsugar, nbstick);
-        //    Assert.AreEqual("Drink maker makes tea with 1 sugar(s) and 1 stick(s)", tea.EnvoyerMessage());
-
-        //}
-        [TestMethod] 
-        public void CommandTeaWithMinimumPrice()
+        [TestMethod]
+        public void OrderCoffeeWithEnoughMoney()
         {
-            string commande = "T:1:0:0.5";
-            string[] strCommande = null;
-            char[] splitdelimiter = { ':' };
-            strCommande = commande.Split(splitdelimiter);
-            int nbsugar = Int32.Parse(strCommande[1]);
-            int nbstick = Int32.Parse(strCommande[2]);
-            if (nbsugar >= 1 && nbstick == 0)
-                nbstick += 1;
-            Tea tea = new Tea(nbsugar, nbstick);
-            Assert.AreEqual("Drink maker makes tea with 1 sugar(s) and 1 stick(s)", tea.EnvoyerMessage());
-
+            string order = "C:2:0:0,6";
+            Machine m = new Machine();
+            m.PassOrder(order);
+            Assert.AreEqual("Drink maker makes 1 coffee with 2 sugar(s)  and a stick", m.PassOrder(order));
+        }
+        [TestMethod]
+        public void OrderTeaWithNotEnoughMoney()
+        {
+            string order = "T:0:0:0,1";
+            Machine m = new Machine();
+            m.PassOrder(order);
+            Assert.AreEqual("not enough money missing 0,3", m.PassOrder(order));
 
         }
+        [TestMethod]
+        public void OrderChocolateWithTooMuchMoney()
+        {
+            string order = "H:2:0:2";
+            Machine m = new Machine();
+            m.PassOrder(order);
+            Assert.AreEqual("Drink maker makes 1 chocolate with 2 sugar(s)  and a stick you will have 1,5 of change", m.PassOrder(order));
 
+        }
+        [TestMethod]
+        public void SetCoffeePrice()
+        {
+            Drink d = new Drink("T");
+            Assert.AreEqual(0.4, d.Price);
+        }
+        [TestMethod]
+        public void SetChocolatePrice()
+        {
+            Drink d = new Drink("H");
+            Assert.AreEqual(0.5, d.Price);
+        }
+        [TestMethod]
+        public void SetTeaPrice()
+        {
+            Drink d = new Drink("T");
+            Assert.AreEqual(0.4, d.Price);
+        }
     }
 }
