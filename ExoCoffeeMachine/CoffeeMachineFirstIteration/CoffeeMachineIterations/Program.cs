@@ -10,7 +10,7 @@ namespace CoffeeMachine
     {
         static void Main(string[] args)
         {
-            string order = "C:3:0:2";
+            string order = "O::";
             Machine m = new Machine();
             m.PassOrder(order);
             Console.ReadKey();
@@ -39,13 +39,23 @@ namespace CoffeeMachine
             if (nbsugar >= 1 && nbstick == 0)
                 nbstick = 1;
 
-            string name = strOrder[0];
-            double orderprice = Double.Parse(strOrder[3]);
-            Drink drink = new Drink(name);
-            Machine machine = new Machine();
+            string drinkname = strOrder[0];
+            Drink drink = new Drink(drinkname);
+            double orderprice;
+            if (strOrder.Length>3)
+            {
+                orderprice = Double.Parse(strOrder[3]);
+            }
+            else {
+                orderprice = drink.Price;
+               }
 
-            string message = "Drink maker makes ";
-            message += "1 " + drink.Name + " with " + nbsugar + " sugar(s) ";
+            
+            string message = "Drink maker will makes";
+            if (drinkname.Contains("h"))
+                message += " an extra hot";
+
+            message += " 1 " + drink.Name + " with " + nbsugar + " sugar(s)";
             if (nbstick == 0)
                 message += " therefore no stick";
             else if (nbstick == 1)
@@ -85,21 +95,26 @@ namespace CoffeeMachine
         public Drink( string name)
         {
             Name = name;
-                if (name == "T")
+                if (name == "T" | name=="Th")
                 {
                     Name = "tea";
                     Price = 0.4;
                 }
-                else if (name == "C")
+                else if (name == "C" | name=="Ch")
                 {
                     Name = "coffee";
                     Price = 0.6;
                 }
 
-                else if (name == "H")
+                else if (name == "H" |name=="Hh")
                 {
                     Name = "chocolate";
                     Price = 0.5;
+                }
+                else if (name == "O")
+                {
+                    Name = "orange";
+                    Price = 0.6;
                 }
                 else
                     Price = 0;
