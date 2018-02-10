@@ -10,16 +10,25 @@ namespace CoffeeMachine
     {
         static void Main(string[] args)
         {
-            string order = "O::";
+            string order = "C:2:0:0,6";
             Machine m = new Machine();
             m.PassOrder(order);
-            Console.ReadKey();
+            string order2 = "C:2:0:0,6";
+            m.PassOrder(order2);
+            m.DisplayReport(); 
+            
 
         }
     }
 
     public class Machine
     {
+        public static int TotalNbCoffee { get; set; }
+        public static int TotalNbTea { get; set; }
+        public static int TotalNbChocolate { get; set; }
+        public static int TotalNbOrange { get; set; }
+        public static double TotalMoney { get; set; }
+
         public string PassOrder(String order)
         {
             string[] strOrder = null;
@@ -63,14 +72,18 @@ namespace CoffeeMachine
             else
                 message += " and " + nbstick + "sticks";
 
+            Machine machine = new Machine();
             if (orderprice == drink.Price)
             {
                 Console.WriteLine(message);
+                machine.ComputeDrinks(drink);
+
             }
             else if (orderprice > drink.Price)
             {
                 double change = orderprice - drink.Price;
                 Console.WriteLine(message += " you will have " + change + " of change");
+                machine.ComputeDrinks(drink);
 
             }
             else if (orderprice < drink.Price)
@@ -82,15 +95,47 @@ namespace CoffeeMachine
 
             return message;
 
-
         }
+        public void ComputeDrinks(Drink drink)
+        {
+            string drinkname = drink.Name;
+
+            if (drinkname == "tea")
+            {
+                TotalNbTea += 1;
+                TotalMoney += drink.Price;
+            }
+            else if (drinkname == "coffee")
+            {
+                TotalNbCoffee += 1;
+                TotalMoney += drink.Price;
+            }
+
+            else if (drinkname == "chocolate")
+            {
+                TotalNbChocolate += 1;
+                TotalMoney += drink.Price;
+            }
+            else if (drinkname == "orange")
+            {
+                TotalNbOrange += 1;
+                TotalMoney += drink.Price;
+            }
+        }
+        public string DisplayReport()
+        {
+            string mes = "People have bought :" + "\r\n" + TotalNbCoffee + " coffee(s) " + "\r\n" + TotalNbTea + " tea(s)" + "\r\n" + TotalNbChocolate + " chocolate(s)" + "\r\n" + TotalNbOrange + " orange(s)" + "\r\n" + "Total Cost :" + TotalMoney;
+             return mes;
+        }
+
 
     }
    public class Drink
     {
         public double Price { get; set; }
-        public string Name { get; set; }
-        
+        public string Name { get;  set; }
+
+
 
         public Drink( string name)
         {
@@ -119,10 +164,12 @@ namespace CoffeeMachine
                 else
                     Price = 0;
             }
-    
-        }
+
 
     }
+
+
+}
 
 
 
